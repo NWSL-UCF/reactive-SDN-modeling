@@ -1,7 +1,7 @@
 """
 Find optimal idle timeout using Newton's method to minimize E[D](Δ).
 
-Parameters: λ = 1, μ_s = 3, μ_c = 2, τ = 0.4
+Parameters: λ = 1, μ_s = 3, μ_c = 2, τ = 0.2
 """
 
 import numpy as np
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     lam = 1.0
     mu_s = 3.0
     mu_c = 2.0
-    tau = 0.4
+    tau = 0.2
     T = 100.0       # Upper bound on Δ (s)
     x_pct = 0.01   # Stop when E[D] within x% of theoretical minimum
 

@@ -10,13 +10,13 @@ from sim import run_single_configuration
 # -----------------------------
 # System parameters (match analytical_delay_components.py)
 # -----------------------------
-tau = 0.4    # one-way transmission delay (s)
+tau = 0.2    # one-way transmission delay (s)
 mu_s = 3   # switch service rate (pkt/s)
 mu_c = 2  # controller service rate (pkt/s)
 
 # Arrival rates and idle timers (same combinations as analytical_delay_components.py)
-lambdas = np.linspace(0.1, 2.99, 50)
-idle_timers = [1.0, 2.0, 3.0, 4.0]
+lambdas = np.linspace(0.1, 3.0, 30)
+idle_timers = [1.0, 2.0, 3.0]
 
 # Simulation settings
 sim_time = 10_000.0

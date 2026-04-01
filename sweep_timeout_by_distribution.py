@@ -124,7 +124,7 @@ def main():
     )
 
     ax.legend(fontsize=16, loc="upper right")
-    ax.set_xlabel(r"$\theta$, Idle Timeout (s)", fontsize=16)
+    ax.set_xlabel(r"$\Delta$, Idle Timeout (s)", fontsize=16)
     ax.set_ylabel(r"$E[D]$, Average Delay (s)", fontsize=16)
     ax.tick_params(labelsize=16)
     ax.grid(False)

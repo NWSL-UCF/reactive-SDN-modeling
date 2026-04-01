@@ -11,19 +11,10 @@ import sys
 
 
 def main():
-    # ---- locate CSV: optional CLI arg, else latest run from sweep_lambda_by_distribution ----
-    if len(sys.argv) > 1:
-        csv_path = Path(sys.argv[1])
-    else:
-        results_dir = Path("results_sim_dist_compare")
-        if not results_dir.exists():
-            print("Run sweep_lambda_by_distribution.py first, or pass CSV path as argument.")
-            sys.exit(1)
-        runs = sorted(results_dir.glob("run_*"), key=lambda p: p.stat().st_mtime, reverse=True)
-        if not runs:
-            print("No run_* directories in results_sim_dist_compare. Run sweep_lambda_by_distribution.py first.")
-            sys.exit(1)
-        csv_path = runs[0] / "sim_dist_compare_results.csv"
+    # ---- locate CSV ----
+    csv_path = Path(
+        "results_sim_dist_compare/run_20260314_230316_138833/sim_dist_compare_results.csv"
+    )
     if not csv_path.exists():
         print(f"CSV not found at {csv_path}")
         sys.exit(1)

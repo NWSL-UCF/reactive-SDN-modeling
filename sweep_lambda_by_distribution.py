@@ -10,7 +10,7 @@ from sim import run_single_configuration, analytical_mean_delay
 # -----------------------------
 # System parameters
 # -----------------------------
-tau = 0.4    # one-way transmission delay (s)
+tau = 0.2    # one-way transmission delay (s)
 mu_s = 3     # switch service rate (pkt/s)
 mu_c = 2     # controller service rate (pkt/s)
 
@@ -91,7 +91,7 @@ def main():
     # Plotting: Poisson, Pareto (markers only), Analytical (solid line)
     # -----------------------------
     distributions_sorted = sorted(df["distribution"].unique())
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(figsize=(8, 6.5))
 
     dist_style = {
         "exponential": {"color": "blue", "marker": "o", "label": "Simulation (Poisson)"},

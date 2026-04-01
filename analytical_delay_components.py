@@ -18,8 +18,8 @@ lambdas = np.linspace(0.1, 3.0, 50)
 # Idle timers to compare
 idle_timers = [1]
 
-# Set up output directory (portable)
-output_root = Path("results_analytical")
+# Set up output directory
+output_root = Path(r"C:\Users\ka931449\Desktop\UCF\Research\Analetical model\Rouf bhais Simulator\Results & Plots\Fresh New Analytical Plots")
 run_dir = output_root / f"run_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
 run_dir.mkdir(parents=True, exist_ok=True)
 
@@ -96,59 +96,59 @@ def average_delay(lam, idle_timer):
 # -----------------------------
 # Data collection for CSV and Plotting
 # -----------------------------
-if __name__ == "__main__":
-    results_data = []
+results_data = []
 
-    for T_idle in idle_timers:
-        for lam_val in lambdas:
-            delay_metrics = average_delay(lam_val, T_idle)
+for T_idle in idle_timers:
+    for lam_val in lambdas:
+        delay_metrics = average_delay(lam_val, T_idle)
 
-            # Collect data for CSV, including all returned metrics
-            row = {'arrival_rate': lam_val, 'idle_timer': T_idle}
-            row.update(delay_metrics)
-            results_data.append(row)
+        # Collect data for CSV, including all returned metrics
+        row = {'arrival_rate': lam_val, 'idle_timer': T_idle}
+        row.update(delay_metrics)
+        results_data.append(row)
 
-    # Create DataFrame and save to CSV
-    df_detailed_results = pd.DataFrame(results_data)
-    df_detailed_results.to_csv(csv_path, index=False)
+# Create DataFrame and save to CSV
+df_detailed_results = pd.DataFrame(results_data)
+df_detailed_results.to_csv(csv_path, index=False)
 
-    # -----------------------------
-    # Plotting
-    # -----------------------------
-    fig, ax = plt.subplots(figsize=(6, 4))
-    markers = ['o', 's', '^', 'D', 'v']
-    colors = ['b', 'g', 'r', 'c', 'm']
 
-    for i, T_idle in enumerate(idle_timers):
-        df_subset = df_detailed_results[df_detailed_results['idle_timer'] == T_idle]
+# -----------------------------
+# Plotting
+# -----------------------------
+fig, ax = plt.subplots(figsize=(6, 4))
+markers = ['o', 's', '^', 'D', 'v']
+colors = ['b', 'g', 'r', 'c', 'm']
 
-        ax.plot(df_subset['arrival_rate'], df_subset['average_delay'],
-                label=f'Total Delay (T_idle={T_idle}s)',
-                marker=markers[i], linestyle='-', color=colors[i], markersize=5)
+for i, T_idle in enumerate(idle_timers):
+    df_subset = df_detailed_results[df_detailed_results['idle_timer'] == T_idle]
 
-        ax.plot(df_subset['arrival_rate'], df_subset['switch_delay'],
-                label=f'Switch Delay (T_idle={T_idle}s)',
-                marker='x', linestyle='-', color=colors[i + 1], markersize=5)
+    ax.plot(df_subset['arrival_rate'], df_subset['average_delay'],
+            label=f'Total Delay (T_idle={T_idle}s)',
+            marker=markers[i], linestyle='-', color=colors[i], markersize=5)
 
-        ax.plot(df_subset['arrival_rate'], df_subset['miss_delay'],
-                label=f'Miss Delay (T_idle={T_idle}s)',
-                marker='+', linestyle='-', color=colors[i + 2], markersize=5)
+    ax.plot(df_subset['arrival_rate'], df_subset['switch_delay'],
+            label=f'Switch Delay (T_idle={T_idle}s)',
+            marker='x', linestyle='-', color=colors[i + 1], markersize=5)
 
-        ax.plot(df_subset['arrival_rate'], df_subset['residual_delay'],
-                label=f'Residual Delay (T_idle={T_idle}s)',
-                marker='^', linestyle='-.', color=colors[i + 3], markersize=5)
+    ax.plot(df_subset['arrival_rate'], df_subset['miss_delay'],
+            label=f'Miss Delay (T_idle={T_idle}s)',
+            marker='+', linestyle='-', color=colors[i + 2], markersize=5)
 
-    ax.set_xlabel("Arrival rate (packets/s)")
-    ax.set_ylabel("Average packet delay (seconds)")
-    ax.set_title("Average Packet Delay and Components vs Arrival Rate")
-    ax.set_yscale("log")
-    ax.legend(loc='upper left')
-    ax.grid(True, which="both", ls="-")
-    fig.tight_layout()
-    fig.savefig(plot_path, format="pdf", bbox_inches="tight")
-    plt.show()
+    ax.plot(df_subset['arrival_rate'], df_subset['residual_delay'],
+            label=f'Residual Delay (T_idle={T_idle}s)',
+            marker='^', linestyle='-.', color=colors[i + 3], markersize=5)
 
-    print(f"CSV saved to: {csv_path}")
-    print(f"Plot saved to: {plot_path}")
-    print(f"Parameters saved to: {parameters_path}")
+ax.set_xlabel("Arrival rate (packets/s)")
+ax.set_ylabel("Average packet delay (seconds)")
+ax.set_title("Average Packet Delay and Components vs Arrival Rate")
+ax.set_yscale("log")
+ax.legend(loc='upper left')
+ax.grid(True, which="both", ls="-")
+fig.tight_layout()
+fig.savefig(plot_path, format="pdf", bbox_inches="tight")
+plt.show()
+
+print(f"CSV saved to: {csv_path}")
+print(f"Plot saved to: {plot_path}")
+print(f"Parameters saved to: {parameters_path}")
 

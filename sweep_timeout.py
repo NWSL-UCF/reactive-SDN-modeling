@@ -10,12 +10,12 @@ from sim import run_single_configuration
 # -----------------------------
 # System parameters
 # -----------------------------
-tau = 0.4    # one-way transmission delay (s)
+tau = 0.2    # one-way transmission delay (s)
 mu_s = 3     # switch service rate (pkt/s)
 mu_c = 2     # controller service rate (pkt/s)
 
 # Idle timeout sweep
-idle_timers = np.linspace(1.0, 5.0, 50)
+idle_timers = np.linspace(1.0, 10.0, 50)
 
 # Arrival rates to compare
 lambda_rates = [0.10, 0.33, 0.66, 1.0]
@@ -121,13 +121,13 @@ def main():
         ax.grid(False)
 
     # Log-scale plot
-    fig_log, ax_log = plt.subplots(figsize=(8, 8))
+    fig_log, ax_log = plt.subplots(figsize=(8, 6.5))
     make_plot(ax_log, use_log=True)
     fig_log.tight_layout()
     fig_log.savefig(plot_log_path, format="pdf", bbox_inches="tight")
 
     # Linear-scale plot
-    fig_lin, ax_lin = plt.subplots(figsize=(8, 8))
+    fig_lin, ax_lin = plt.subplots(figsize=(8, 6.5))
     make_plot(ax_lin, use_log=False)
     fig_lin.tight_layout()
     fig_lin.savefig(plot_linear_path, format="pdf", bbox_inches="tight")
