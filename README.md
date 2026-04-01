@@ -37,7 +37,6 @@ Contains analytical derivations and scripts for delay components.
 Reserved for emulation workflows, scripts, results, and documentation.
 
 ## Recommended reading order
-
-1. Read `simulations/README.md` for how to run the simulator.
-2. Check `analytical/` for the analytical model behind the results.
+1. Check `analytical/` for the analytical model behind the results.
+2. Read `simulations/README.md` for how to run the simulator.
 3. Use `emulations/` when emulation artifacts are added.
