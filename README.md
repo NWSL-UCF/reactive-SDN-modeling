@@ -1,4 +1,4 @@
-# Reactive SDN Simulation
+# Reactive SDN Modeling
 
 This repository is organized into three main parts:
 
