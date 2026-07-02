@@ -37,14 +37,34 @@ DELAY_AXIS_COLOR = "#E41A1C"
 FONT_TITLE = 14
 FONT_LABEL = 14
 FONT_TICK = 13
+OCCUPANCY_TICK_STEP = 5
+DELAY_GAP_TICK_STEP = 25  # 5× occupancy step so ticks align (25 ↔ 125%)
+DELAY_GAP_AXIS_RATIO = DELAY_GAP_TICK_STEP / OCCUPANCY_TICK_STEP
 FONT_LEGEND = 14
+
+
+def paired_axis_limits(data_peak: float, delay_gap_peak: float) -> tuple[float, float]:
+    """Pick shared 0–top limits so left/right tick marks line up (25 ↔ 125%, etc.)."""
+    occ_ymax = float(
+        np.ceil(max(data_peak, delay_gap_peak / DELAY_GAP_AXIS_RATIO) / OCCUPANCY_TICK_STEP)
+        * OCCUPANCY_TICK_STEP
+    )
+    gap_ymax = occ_ymax * DELAY_GAP_AXIS_RATIO
+    return occ_ymax, gap_ymax
 
 
 def style_occupancy_yaxis(ax, ymax: float) -> None:
     ax.set_ylabel(OCCUPANCY_YLABEL, fontsize=FONT_LABEL, color=OCCUPANCY_AXIS_COLOR)
     ax.tick_params(axis="y", labelsize=FONT_TICK, colors=OCCUPANCY_AXIS_COLOR)
     ax.set_ylim(0, ymax)
-    ax.yaxis.set_major_locator(MultipleLocator(5))
+    ax.yaxis.set_major_locator(MultipleLocator(OCCUPANCY_TICK_STEP))
+
+
+def style_delay_gap_yaxis(ax, ymax: float) -> None:
+    ax.set_ylabel(DELAY_YLABEL, fontsize=FONT_LABEL, color=DELAY_AXIS_COLOR, labelpad=2)
+    ax.tick_params(axis="y", labelsize=FONT_TICK, colors=DELAY_AXIS_COLOR, pad=1)
+    ax.set_ylim(0, ymax)
+    ax.yaxis.set_major_locator(MultipleLocator(DELAY_GAP_TICK_STEP))
 
 
 def gap_to_optimal_delay_pct(delay_s: float) -> float:
@@ -105,7 +125,8 @@ def plot_comparison(
     delay_gap_pct = [gap_to_optimal_delay_pct(d) for d in delays]
 
     box_peak = max(v for series in box_data for v in series)
-    occ_ymax = box_peak * 1.08
+    gap_peak = max(delay_gap_pct) if delay_gap_pct else 0.0
+    occ_ymax, gap_ymax = paired_axis_limits(box_peak, gap_peak)
 
     ax_box.set_xlabel("Idle Timeout $\\Delta$ (s)", fontsize=FONT_LABEL)
     style_occupancy_yaxis(ax_box, occ_ymax)
@@ -114,7 +135,6 @@ def plot_comparison(
     ax_box.set_axisbelow(True)
 
     ax_gap = ax_box.twinx()
-    gap_max = max(max(delay_gap_pct) * 1.12, 5) if delay_gap_pct else 5
     ax_gap.plot(
         x,
         delay_gap_pct,
@@ -127,9 +147,7 @@ def plot_comparison(
         linestyle=":",
         zorder=3,
     )
-    ax_gap.set_ylabel(DELAY_YLABEL, fontsize=FONT_LABEL, color=DELAY_AXIS_COLOR, labelpad=2)
-    ax_gap.tick_params(axis="y", labelsize=FONT_TICK, colors=DELAY_AXIS_COLOR, pad=1)
-    ax_gap.set_ylim(0, gap_max)
+    style_delay_gap_yaxis(ax_gap, gap_ymax)
 
     legend_handles = [
         Patch(
@@ -165,6 +183,9 @@ def plot_comparison(
         labelspacing=0.2,
     )
     fig.tight_layout()
+    # Re-apply paired limits after layout so twin-axis ticks stay aligned (25 ↔ 125%, etc.).
+    style_occupancy_yaxis(ax_box, occ_ymax)
+    style_delay_gap_yaxis(ax_gap, gap_ymax)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_path, dpi=300, bbox_inches="tight", pad_inches=0.04)
