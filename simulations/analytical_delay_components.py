@@ -19,7 +19,7 @@ lambdas = np.linspace(0.1, 3.0, 50)
 idle_timers = [1]
 
 # Set up output directory
-output_root = Path(r"C:\Users\ka931449\Desktop\UCF\Research\Analetical model\Rouf bhais Simulator\Results & Plots\Fresh New Analytical Plots")
+output_root = Path(__file__).resolve().parent / "results_analytical"
 run_dir = output_root / f"run_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
 run_dir.mkdir(parents=True, exist_ok=True)
 

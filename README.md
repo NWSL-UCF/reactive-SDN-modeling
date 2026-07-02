@@ -13,7 +13,7 @@ Start here depending on what you want:
 - If you want to **run simulations**, go to `simulations/`.
 - If you want to **study analytical results or formulas**, go to `analytical/`.
 - If you want to **run emulation experiments**, go to `emulations/`.
-- If you want to **study the idle-timeout vs. TCAM occupancy trade-off** on real campus traffic, go to `idle_timeout_and_TCAM_occupancy_tradeoff_experiment/`.
+- If you want to **study the idle-timeout vs. TCAM occupancy trade-off** on a campus network PCAP, go to `idle_timeout_and_TCAM_occupancy_tradeoff_experiment/`.
 
 ## Folder guide
 
@@ -44,9 +44,9 @@ Mininet + ONOS emulation setup for reactive forwarding delay under different tra
 
 ### `idle_timeout_and_TCAM_occupancy_tradeoff_experiment/`
 
-Trace-driven study of TCAM/SFT occupancy vs. idle timeout on UCF HEC `trace_1` campus traffic.
+Trace-driven study of TCAM/SFT occupancy vs. idle timeout on a campus network PCAP (`trace_1`).
 
-> **Disclaimer:** The original UCF campus packet trace (PCAP) is not included in this repository and may not be shared or redistributed for security and data-use reasons. What is shared here are simulation outputs only: the **number of active flow-table entries (TCAM/SFT occupancy)**, sampled over time and summarized per idle timeout — no packet payloads, IP addresses, or per-flow identifiers.
+> **Disclaimer:** The original campus network packet trace (PCAP) is not included in this repository and may not be shared or redistributed for security and data-use reasons. What is shared here are simulation outputs only: the **number of active flow-table entries (TCAM/SFT occupancy)**, sampled over time and summarized per idle timeout — no packet payloads, IP addresses, or per-flow identifiers.
 
 - `idle_timeout_and_TCAM_occupancy_tradeoff_experiment/readme.md` - experiment overview, data layout, and regenerate commands.
 - `idle_timeout_and_TCAM_occupancy_tradeoff_experiment/scripts/` - PCAP-to-SFT simulation and plotting scripts.

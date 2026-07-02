@@ -100,7 +100,7 @@ def plot_comparison(
     trace_label: str = "trace_1",
 ) -> None:
     # Single-column width (~3.5 in).
-    fig_w, fig_h = 5.5, 3.5
+    fig_w, fig_h = 5.5, 3.75
     fig, ax_box = plt.subplots(figsize=(fig_w, fig_h))
 
     labels = [f"{t}s" for t in IDLE_TIMEOUTS]

@@ -24,8 +24,8 @@ class CustomTopo(Topo):
 
 def run():
     topo = CustomTopo()
-    # Replace with your remote controller IP
-    controller_ip = '192.168.56.102'
+    # Replace with your remote ONOS controller IP
+    controller_ip = '192.168.1.100'
     net = Mininet(topo=topo, controller=lambda name: RemoteController(name, ip=controller_ip), link=TCLink)
     
     net.start()
